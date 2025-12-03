@@ -1,1 +1,15 @@
-<p>sidebar works!</p>
+<div class="h-full w-64 bg-gray-900 text-white flex flex-col p-4">
+  <h2 class="text-lg font-bold mb-6">Dashboard</h2>
+
+  <nav class="flex flex-col gap-3">
+    <a routerLink="/tickets" routerLinkActive="active-link"
+       class="py-2 px-3 rounded hover:bg-gray-700 transition">Tickets</a>
+
+    <a routerLink="/knowledgebase" routerLinkActive="active-link"
+       class="py-2 px-3 rounded hover:bg-gray-700 transition">Knowledgebase</a>
+
+    <a routerLink="/logs" routerLinkActive="active-link"
+       class="py-2 px-3 rounded hover:bg-gray-700 transition">Live Logs</a>
+  </nav>
+</div>
+
