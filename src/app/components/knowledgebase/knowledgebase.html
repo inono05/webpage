@@ -4,26 +4,29 @@
 
   <div class="flex flex-col sm:flex-row gap-3">
     <button (click)="preview = false"
-            class="px-4 py-2 border rounded-lg bg-white shadow-sm">✏️ Edit</button>
+            class="px-4 py-2 border rounded-lg bg-white shadow-sm"> Edit</button>
 
     <button (click)="preview = true"
-            class="px-4 py-2 border rounded-lg bg-white shadow-sm">👁️ Preview</button>
+            class="px-4 py-2 border rounded-lg bg-white shadow-sm"> Preview</button>
 
-    <button (click)="saveDraft()"
-            class="sm:ml-auto px-4 py-2 bg-blue-600 text-white rounded-lg shadow">💾 Save</button>
+    <button (click)="save()"
+            class="sm:ml-auto px-4 py-2 bg-blue-600 text-white rounded-lg shadow"> Save</button>
   </div>
 
   <!-- Editor -->
-  <textarea *ngIf="!preview"
-            [(ngModel)]="markdown"
-            rows="10"
-            class="w-full border rounded-lg p-3 text-sm shadow">
+  @if (!preview) {
+    <textarea
+      [(ngModel)]="markdown"
+      rows="10"
+      class="w-full border rounded-lg p-3 text-sm shadow">
   </textarea>
+  }
 
   <!-- Preview -->
-  <div *ngIf="preview"
-       class="border rounded-lg p-4 bg-gray-50 shadow text-sm whitespace-pre-wrap">
-    {{ markdown }}
-  </div>
-
+  @if (preview) {
+    <div
+      class="border rounded-lg p-4 bg-gray-50 shadow text-sm whitespace-pre-wrap">
+      {{ markdown }}
+    </div>
+  }
 </div>

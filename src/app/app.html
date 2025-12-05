@@ -6,17 +6,18 @@
 
     <nav class="flex flex-col gap-2">
       <a routerLink="/tickets" routerLinkActive="active-link" class="nav-item">🎫 Tickets</a>
-      <a routerLink="/knowledgebase" routerLinkActive="active-link" class="nav-item">📚 Knowledgebase</a>
+      <a routerLink="/knowledgebase" routerLinkActive="active-link" class="nav-item">  Knowledgebase</a>
       <a routerLink="/logs" routerLinkActive="active-link" class="nav-item">📡 Live Logs</a>
     </nav>
   </aside>
 
   <!-- BACKDROP MOBILE -->
-  <div
-    *ngIf="sidebarOpen"
-    class="fixed inset-0 bg-black/50 z-40 md:hidden"
-    (click)="toggleSidebar()">
-  </div>
+  @if (sidebarOpen) {
+    <div
+      class="fixed inset-0 bg-black/50 z-40 md:hidden"
+      (click)="toggleSidebar()">
+    </div>
+  }
 
   <!-- SIDEBAR MOBILE -->
   <aside

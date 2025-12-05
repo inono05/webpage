@@ -1,11 +1,9 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { interval, Subscription } from 'rxjs';
-import {NgForOf} from '@angular/common';
 
 @Component({
   selector: 'app-live-logs',
   imports: [
-    NgForOf
   ],
   templateUrl: './live-logs.html',
   styleUrl: './live-logs.css',
