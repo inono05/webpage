@@ -1,40 +1,57 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgFor } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catchError, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-live-logs',
-  imports: [
-  ],
+  standalone: true,
+  imports: [],
   templateUrl: './live-logs.html',
-  styleUrl: './live-logs.css',
+  styleUrls: ['./live-logs.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LiveLogs implements OnInit, OnDestroy {
-
   logs: string[] = [];
-  sub?: Subscription;
+  private sub?: Subscription;
+  private readonly MAX_LOGS = 200;
 
-  @ViewChild('logContainer') logContainer!: ElementRef;
+  @ViewChild('logContainer') private logContainer!: ElementRef<HTMLDivElement>;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.sub = interval(2000).subscribe(i => {
-      const event = `${new Date().toLocaleTimeString()} — event#${i} — ${(Math.random() > 0.5 ? 'INFO' : 'WARN')}`;
-      this.logs.push(event);
+    this.sub = interval(2000).pipe(
+      catchError(error => {
+        console.error('Error in log generation:', error);
+        return [];
+      })
+    ).subscribe({
+      next: (i) => {
+        const event = `${new Date().toLocaleTimeString()} — event#${i} — ${Math.random() > 0.5 ? 'INFO' : 'WARN'}`;
 
-      // keep last 200 logs
-      if (this.logs.length > 200) this.logs.shift();
+        // Create new array reference for OnPush
+        this.logs = [...this.logs, event].slice(-this.MAX_LOGS);
 
-      setTimeout(() => this.scrollToBottom(), 10);
+        // Manually trigger change detection
+        this.cdr.detectChanges();
+
+        // Use requestAnimationFrame for smoother scrolling
+        requestAnimationFrame(() => this.scrollToBottom());
+      },
+      error: (err) => console.error('Log subscription error:', err)
     });
   }
 
-  private scrollToBottom() {
-    if (this.logContainer) {
-      const e = this.logContainer.nativeElement;
-      e.scrollTop = e.scrollHeight;
+  private scrollToBottom(): void {
+    if (this.logContainer?.nativeElement) {
+      const element = this.logContainer.nativeElement;
+      element.scrollTop = element.scrollHeight;
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
 

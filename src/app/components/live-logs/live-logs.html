@@ -1,12 +1,25 @@
 <div class="space-y-4">
+  <header>
+    <h1 class="text-2xl font-bold text-gray-800">Live Logs</h1>
+    <p class="text-sm text-gray-500">Auto-updating log entries</p>
+  </header>
 
-  <h1 class="text-2xl font-bold text-gray-800">Live Logs</h1>
-
-  <div #logContainer
-       class="h-80 sm:h-96 overflow-auto border rounded-lg p-4 bg-black text-green-400 font-mono text-xs shadow">
-    @for (log of logs; track log) {
-      <div>{{ log }}</div>
-    }
+  <div class="relative">
+    <div #logContainer
+         role="log"
+         aria-live="polite"
+         aria-atomic="false"
+         class="h-80 sm:h-96 overflow-auto border rounded-lg p-4 bg-black text-green-400 font-mono text-xs shadow">
+      @for (log of logs; track $index) {
+        <div class="py-0.5 border-b border-gray-800 last:border-0">{{ log }}</div>
+      }
+      @if (logs.length === 0) {
+        <div class="text-gray-500 italic">No log entries yet...</div>
+      }
+    </div>
+    
+    <div class="absolute bottom-2 right-2 text-xs text-gray-500">
+      {{ logs.length }} {{ logs.length === 1 ? 'entry' : 'entries' }}
+    </div>
   </div>
-
 </div>

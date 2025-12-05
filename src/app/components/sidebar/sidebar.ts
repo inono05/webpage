@@ -4,8 +4,9 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 @Component({
   selector: 'app-sidebar',
   imports: [
-    RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    RouterLink
+
   ],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
