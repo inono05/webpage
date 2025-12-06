@@ -28,7 +28,7 @@
       </thead>
 
       <tbody>
-        @for (t of tickets; track t.id) {
+        @for (t of filteredTickets; track t.id) {
           <tr class="border-t hover:bg-gray-50">
             <td class="px-4 py-3">{{ t.id }}</td>
             <td class="px-4 py-3">{{ t.subject }}</td>
